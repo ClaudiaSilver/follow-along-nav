@@ -32,13 +32,26 @@
     const triggers = document.querySelectorAll('a'); 
     const highlight = document.createElement('span');
     highlight.classList.add('highlight');
-    document.body.append(highlight);
+    document.body.append(highlight); // add to DOM
 
     function highlightLink() {
-      console.log(this);
-      const linkCoords = this.getBoundingClientRect();
-    }
+      const linkCoords = this.getBoundingClientRect(); // returns size and position of element
+      // create object that takes current scroll value into account
 
+      const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        top: linkCoords.top + window.scrollY,
+        left: linkCoords.left + window.scrollX
+      }
+
+      highlight.style.width = `${coords.width}px`;
+      highlight.style.height = `${coords.height}px`;
+      highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+
+
+    }
+    // listen for mouse event on each link
     triggers.forEach(a => a.addEventListener('mouseenter', highlightLink));
 
 
